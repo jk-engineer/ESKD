@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Drawing\DrawingScale.cs" />
+    <Compile Include="Drawing\DrawingScaleManager.cs" />
     <Compile Include="Drawing\DrawingSheetSize.cs" />
     <Compile Include="Drawing\DrawingSheetSizeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
