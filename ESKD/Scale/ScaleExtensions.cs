@@ -20,26 +20,26 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
 
-namespace ESKD.Drawing
+namespace ESKD.Scale
 {
     /// <summary>
     /// Класс для работы с масштабами чертежа согласно ГОСТ 2.302.
     /// </summary>
-    public static class DrawingScaleManager
+    public static class ScaleExtensions
     {
         #region Поля, свойсва
 
         /// <summary>
         /// Список масштабов в численном выражении.
         /// </summary>
-        private static readonly Dictionary<DrawingScale.DrawingScaleEnum, double> _scaleValuesList =
-            new Dictionary<DrawingScale.DrawingScaleEnum, double>();
+        private static readonly Dictionary<ScaleEnum, double> _scaleValuesList =
+            new Dictionary<ScaleEnum, double>();
 
         /// <summary>
         /// Список масштабов в строковом выражении.
         /// </summary>
-        private static readonly Dictionary<DrawingScale.DrawingScaleEnum, string> _scaleStringsList =
-            new Dictionary<DrawingScale.DrawingScaleEnum, string>();
+        private static readonly Dictionary<ScaleEnum, string> _scaleStringsList =
+            new Dictionary<ScaleEnum, string>();
 
         /// <summary>
         /// Значения для масштабов.
@@ -88,7 +88,7 @@ namespace ESKD.Drawing
         /// <summary>
         /// Статический конструктор класса.
         /// </summary>
-        static DrawingScaleManager()
+        static ScaleExtensions()
         {
             // Заполнение списков численного и текстового представления масштабов.
             bool realScale = false;
@@ -102,13 +102,13 @@ namespace ESKD.Drawing
                 }
                 if (!realScale)
                 {
-                    _scaleValuesList.Add((DrawingScale.DrawingScaleEnum)index, 1.0 / scaleValue);
-                    _scaleStringsList.Add((DrawingScale.DrawingScaleEnum)index, $"1:{scaleString}");
+                    _scaleValuesList.Add((ScaleEnum)index, 1.0 / scaleValue);
+                    _scaleStringsList.Add((ScaleEnum)index, $"1:{scaleString}");
                 }
                 else
                 {
-                    _scaleValuesList.Add((DrawingScale.DrawingScaleEnum)index, scaleValue);
-                    _scaleStringsList.Add((DrawingScale.DrawingScaleEnum)index, $"{scaleString}:1");
+                    _scaleValuesList.Add((ScaleEnum)index, scaleValue);
+                    _scaleStringsList.Add((ScaleEnum)index, $"{scaleString}:1");
                 }
             }
         }
@@ -122,14 +122,14 @@ namespace ESKD.Drawing
         /// </summary>
         /// <param name="scale">Масштаб.</param>
         /// <returns></returns>
-        public static double GetScaleValue(DrawingScale.DrawingScaleEnum scale) => _scaleValuesList[scale];
+        public static double GetValue(this ScaleEnum scale) => _scaleValuesList[scale];
 
         /// <summary>
         /// Возвращает строковое значение указанного масштаба.
         /// </summary>
         /// <param name="scale">Масштаб.</param>
         /// <returns></returns>
-        public static string GetScaleString(DrawingScale.DrawingScaleEnum scale) => _scaleStringsList[scale];
+        public static string GetString(this ScaleEnum scale) => _scaleStringsList[scale];
 
         #endregion
     }

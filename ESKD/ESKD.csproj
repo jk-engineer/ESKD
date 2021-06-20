@@ -39,11 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drawing\DrawingScale.cs" />
-    <Compile Include="Drawing\DrawingScaleManager.cs" />
+    <Compile Include="Scale\ScaleEnum.cs" />
     <Compile Include="Drawing\DrawingSheetSize.cs" />
     <Compile Include="Drawing\DrawingSheetSizeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scale\ScaleExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
