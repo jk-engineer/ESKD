@@ -21,36 +21,36 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ESKD.Drawing
+namespace ESKD.SheetSize
 {
     /// <summary>
     /// Класс для работы с форматами листов чертежей.
     /// </summary>
-    public static class DrawingSheetSizeManager
+    public static class SheetSizeExtensions
     {
         #region Поля, свойства
 
         /// <summary>
         /// Возвращает названия форматов.
         /// </summary>
-        public static string[] SheetSizeNames => System.Enum.GetNames(typeof(DrawingSheetSize.DrawingSheetSizeEnum));
+        public static string[] SheetSizeNames => System.Enum.GetNames(typeof(SheetSizeEnum));
 
         /// <summary>
         /// Возвращает массив значений констант для перечисления форматов листов.
         /// </summary>
-        public static System.Array SheetSizeValues => System.Enum.GetValues(typeof(DrawingSheetSize.DrawingSheetSizeEnum));
+        public static System.Array SheetSizeValues => System.Enum.GetValues(typeof(SheetSizeEnum));
 
         /// <summary>
         /// Список значений высоты форматов в миллиметрах.
         /// </summary>
-        private static readonly Dictionary<DrawingSheetSize.DrawingSheetSizeEnum, int> _heightList =
-            new Dictionary<DrawingSheetSize.DrawingSheetSizeEnum, int>();
+        private static readonly Dictionary<SheetSizeEnum, int> _heightList =
+            new Dictionary<SheetSizeEnum, int>();
 
         /// <summary>
         /// Список значений ширины форматов в миллиметрах.
         /// </summary>
-        private static readonly Dictionary<DrawingSheetSize.DrawingSheetSizeEnum, int> _widthList =
-            new Dictionary<DrawingSheetSize.DrawingSheetSizeEnum, int>();
+        private static readonly Dictionary<SheetSizeEnum, int> _widthList =
+            new Dictionary<SheetSizeEnum, int>();
 
         /// <summary>
         /// Значения высоты форматов.
@@ -123,13 +123,13 @@ namespace ESKD.Drawing
         /// <summary>
         /// Статический конструктор класса.
         /// </summary>
-        static DrawingSheetSizeManager()
+        static SheetSizeExtensions()
         {
             // Заполнение коллекций значениями высоты и ширины форматов.
             for (int index = 0; index < SheetSizeNames.Count(); index++)
             {
-                _heightList.Add((DrawingSheetSize.DrawingSheetSizeEnum)index, _heightValues[index]);
-                _widthList.Add((DrawingSheetSize.DrawingSheetSizeEnum)index, _widthValues[index]);
+                _heightList.Add((SheetSizeEnum)index, _heightValues[index]);
+                _widthList.Add((SheetSizeEnum)index, _widthValues[index]);
             }
         }
 
@@ -143,7 +143,7 @@ namespace ESKD.Drawing
         /// <param name="height">Высота листа в миллиметрах.</param>
         /// <param name="width">Ширина листа в миллиметрах.</param>
         /// <returns></returns>
-        public static DrawingSheetSize.DrawingSheetSizeEnum GetSheetSize(int height, int width)
+        public static SheetSizeEnum GetSheetSize(int height, int width)
         {
             // Возвращает результат проверки соответствия размера формата листа требованиям ГОСТ 2.301.
             bool CheckSize(int checkValue, int standardValue)
@@ -168,8 +168,8 @@ namespace ESKD.Drawing
                 return result;
             }
 
-            DrawingSheetSize.DrawingSheetSizeEnum resultValue = DrawingSheetSize.DrawingSheetSizeEnum.NonStandard;
-            foreach (DrawingSheetSize.DrawingSheetSizeEnum size in _heightList.Keys)
+            SheetSizeEnum resultValue = SheetSizeEnum.NonStandard;
+            foreach (SheetSizeEnum size in _heightList.Keys)
             {
                 int standardHeight = _heightList[size];
                 int standardWidth = _widthList[size];
@@ -187,34 +187,34 @@ namespace ESKD.Drawing
         /// <summary>
         /// Возвращает имя указанного формата.
         /// </summary>
-        /// <param name="drawingSheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
+        /// <param name="sheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
         /// <returns></returns>
-        public static string GetSheetSizeName(DrawingSheetSize.DrawingSheetSizeEnum drawingSheetSize) =>
-            System.Enum.GetName(typeof(DrawingSheetSize.DrawingSheetSizeEnum), drawingSheetSize);
+        public static string Name(this SheetSizeEnum sheetSize) =>
+            System.Enum.GetName(typeof(SheetSizeEnum), sheetSize);
 
         /// <summary>
         /// Возвращает высоту указанного формата в миллиметрах (для альбомной ориентации).
         /// </summary>
-        /// <param name="drawingSheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
+        /// <param name="sheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
         /// <returns></returns>
-        public static int GetSheetSizeHeight(DrawingSheetSize.DrawingSheetSizeEnum drawingSheetSize) =>
-            _heightList[drawingSheetSize];
+        public static int Height(this SheetSizeEnum sheetSize) =>
+            _heightList[sheetSize];
 
         /// <summary>
         /// Возвращает ширину указанного формата в миллиметрах (для альбомной ориентации).
         /// </summary>
-        /// <param name="drawingSheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
+        /// <param name="sheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
         /// <returns></returns>
-        public static int GetSheetSizeWidth(DrawingSheetSize.DrawingSheetSizeEnum drawingSheetSize) =>
-            _widthList[drawingSheetSize];
+        public static int Width(this SheetSizeEnum sheetSize) =>
+            _widthList[sheetSize];
 
         /// <summary>
         /// Возвращает площадь указанного формата в квадратных миллиметрах.
         /// </summary>
-        /// <param name="drawingSheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
+        /// <param name="sheetSize">Формат листа чертежа согласно ГОСТ 2.301.</param>
         /// <returns></returns>
-        public static int GetSheetSizeArea(DrawingSheetSize.DrawingSheetSizeEnum drawingSheetSize) =>
-            GetSheetSizeHeight(drawingSheetSize) * GetSheetSizeWidth(drawingSheetSize);
+        public static int GetArea(this SheetSizeEnum sheetSize) =>
+            sheetSize.Height() * sheetSize.Width();
 
         #endregion
     }
